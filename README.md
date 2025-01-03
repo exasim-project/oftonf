@@ -31,13 +31,13 @@ IntegerVariableFinder intFinder(context);
 intFinder.start();
 ```
 
-You can even specifiy more than one source file when calling clang-tool. 
+You can even specify more than one source file when calling clang-tool.
 ```bash
 bin/clang-tool s1.cc s2.cc -- -std=c++11
 ```
 More matchers for writing own finders and transformers are available under [2].
 
-### Specifiying compiler arguments
+### Specifying compiler arguments
 There are multiple ways to provide your projects' compiler arguments to a clang tool:
 
 * **Direct**
@@ -53,10 +53,9 @@ There are multiple ways to provide your projects' compiler arguments to a clang 
   If you have an ordinary Makefile based project, use rizsottos awesome tool from https://github.com/rizsotto/Bear and run ```bear make``` on a cleanded project directory. It will generate a ```compile_commands.json``` for you!
 
 # TODOs
-Inlude PPCallbacks
+Include PPCallbacks
 
 # References
 [1] http://clang.llvm.org/docs/LibTooling.html
 
 [2] http://clang.llvm.org/docs/LibASTMatchersReference.html
-

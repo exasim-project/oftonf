@@ -4,6 +4,7 @@
 #include "actions/frontendaction.h"
 #include "utils/utils.h"
 
+#include <iostream>
 #include <string>
 
 using namespace std;
@@ -11,7 +12,7 @@ using namespace llvm;
 using namespace clang;
 using namespace clang::tooling;
 
-int main(int argc, const char **argv)
+int main(int argc, const char** argv)
 {
     llvm::cl::OptionCategory ctCategory("clang-tool options");
     auto expectedParser = CommonOptionsParser::create(argc, argv, ctCategory);
@@ -21,8 +22,8 @@ int main(int argc, const char **argv)
         return -1;
     }
 
-    CommonOptionsParser &optionsParser = expectedParser.get();
-    for (auto &sourceFile : optionsParser.getSourcePathList())
+    CommonOptionsParser& optionsParser = expectedParser.get();
+    for (auto& sourceFile : optionsParser.getSourcePathList())
     {
         if (utils::fileExists(sourceFile) == false)
         {
@@ -31,17 +32,28 @@ int main(int argc, const char **argv)
         }
 
         auto sourcetxt = utils::getSourceCode(sourceFile);
-        auto compileCommands = optionsParser.getCompilations().getCompileCommands(getAbsolutePath(sourceFile));
+        auto compileCommands =
+            optionsParser.getCompilations().getCompileCommands(
+                getAbsolutePath(sourceFile)
+            );
 
-        std::vector<std::string> compileArgs = utils::getCompileArgs(compileCommands);
-        compileArgs.push_back("-I" + utils::getClangBuiltInIncludePath(argv[0]));
-        for (auto &s : compileArgs)
+        std::vector<std::string> compileArgs =
+            utils::getCompileArgs(compileCommands);
+        compileArgs.push_back(
+            "-I" + utils::getClangBuiltInIncludePath(argv[0])
+        );
+        for (auto& s : compileArgs)
         {
             llvm::outs() << s << "\n";
         }
 
+        std::cout << "foo\n";
         auto xfrontendAction = std::make_unique<XFrontendAction>();
-        utils::customRunToolOnCodeWithArgs(move(xfrontendAction), sourcetxt, compileArgs, sourceFile);
+        std::cout << "bar\n";
+        utils::customRunToolOnCodeWithArgs(
+            move(xfrontendAction), sourcetxt, compileArgs, sourceFile
+        );
+        std::cout << "baz\n";
     }
 
     return 0;
