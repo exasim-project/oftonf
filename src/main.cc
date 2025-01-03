@@ -36,7 +36,9 @@ int main(int argc, const char **argv)
         std::vector<std::string> compileArgs = utils::getCompileArgs(compileCommands);
         compileArgs.push_back("-I" + utils::getClangBuiltInIncludePath(argv[0]));
         for (auto &s : compileArgs)
+        {
             llvm::outs() << s << "\n";
+        }
 
         auto xfrontendAction = std::make_unique<XFrontendAction>();
         utils::customRunToolOnCodeWithArgs(move(xfrontendAction), sourcetxt, compileArgs, sourceFile);
