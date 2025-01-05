@@ -11,6 +11,7 @@ set(CLANG_TOOL_SRC
     consumer/consumer.cc
     transformer/transformer.cc
     transformer/functioncalltransformer.cc
+    transformer/field.cc
     finder/finder.cc
     finder/integervariablefinder.cc)
 

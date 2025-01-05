@@ -1,3 +1,5 @@
+#include <iostream>
+
 #include "functioncalltransformer.h"
 
 #include <clang/AST/Decl.h>
@@ -5,10 +7,11 @@
 #include <clang/ASTMatchers/ASTMatchers.h>
 #include <clang/Rewrite/Core/Rewriter.h>
 
-FunctionCallTransformer::FunctionCallTransformer(clang::ASTContext &context, clang::Rewriter &rewriter)
+FunctionCallTransformer::FunctionCallTransformer(
+    clang::ASTContext& context, clang::Rewriter& rewriter
+)
     : Transformer(context, rewriter)
-{
-}
+{}
 
 void FunctionCallTransformer::start()
 {
@@ -22,7 +25,9 @@ void FunctionCallTransformer::start()
     functionFinder.matchAST(context);
 }
 
-void FunctionCallTransformer::run(const clang::ast_matchers::MatchFinder::MatchResult &result)
+void FunctionCallTransformer::run(
+    const clang::ast_matchers::MatchFinder::MatchResult& result
+)
 {
     using namespace clang;
 
@@ -30,12 +35,13 @@ void FunctionCallTransformer::run(const clang::ast_matchers::MatchFinder::MatchR
      * CallExpr is the function call
      * FunctionDecl is fhe function definition
      */
-
-    if (const CallExpr *callExpr = result.Nodes.getNodeAs<CallExpr>("callExpr"))
+    if (const CallExpr* callExpr = result.Nodes.getNodeAs<CallExpr>("callExpr"))
     {
-        if (const FunctionDecl *function = callExpr->getDirectCallee())
+        if (const FunctionDecl* function = callExpr->getDirectCallee())
         {
-            if (result.SourceManager->isInSystemHeader(function->getSourceRange().getBegin()))
+            if (result.SourceManager->isInSystemHeader(
+                    function->getSourceRange().getBegin()
+                ))
                 return;
 
             auto functionName = function->getNameAsString();
@@ -51,8 +57,8 @@ void FunctionCallTransformer::run(const clang::ast_matchers::MatchFinder::MatchR
     }
 }
 
-void FunctionCallTransformer::print(clang::raw_ostream &stream)
+void FunctionCallTransformer::print(clang::raw_ostream& stream)
 {
-    for (auto &fn : functions)
-        stream << fn << "(..)\n";
+    // for (auto &fn : functions)
+    //     stream << fn << "(..)\n";
 }

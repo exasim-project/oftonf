@@ -39,21 +39,18 @@ int main(int argc, const char** argv)
 
         std::vector<std::string> compileArgs =
             utils::getCompileArgs(compileCommands);
-        compileArgs.push_back(
-            "-I" + utils::getClangBuiltInIncludePath(argv[0])
-        );
+        // compileArgs.push_back(
+        //     "-I" + utils::getClangBuiltInIncludePath(argv[0])
+        // );
         for (auto& s : compileArgs)
         {
             llvm::outs() << s << "\n";
         }
 
-        std::cout << "foo\n";
         auto xfrontendAction = std::make_unique<XFrontendAction>();
-        std::cout << "bar\n";
         utils::customRunToolOnCodeWithArgs(
             move(xfrontendAction), sourcetxt, compileArgs, sourceFile
         );
-        std::cout << "baz\n";
     }
 
     return 0;
